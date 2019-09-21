@@ -25,20 +25,13 @@ def TimeCnvrt(i):
 def SbtrctTime(E,L):
     E=TimeCnvrt(E)
     L=TimeCnvrt(L)
-    D=[L[i]-E[i] for i in range(3)]
+    sign=L[0]>E[0]
+    if sign:
+        D=[L[i]-E[i] for i in range(3)]
+    else:
+        D=[E[i]-L[i] for i in range(3)]
     D=UntMnger(D)
-    if D[0]<0:
-        if D[2]!=0:
-            D[2]=60-D[2]
-            D[1]+=1
-        if D[1]!=0:
-            D[1]=60-D[1]
-            D[0]+=1
-    Ans=str(D[0])+':'+str(D[1])+':'+str(D[2])
+    Ans=str('-('*sign+str(D[0])+':'+str(D[1])+':'+str(D[2])+')'*sign)
     return Ans
-print (SbtrctTime('16:67:64','0:97:60'))
+print (SbtrctTime('0:97:60','16:67:64'))
 
-#mixed plusses and minuses 
-#say (-16:+30:-4) should be (-15:30:04)
-#now would be (-16:30:04)
-#the untmnger would be (-16:29:56)
