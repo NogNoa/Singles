@@ -10,14 +10,18 @@ Created on Sat Sep 21 12:50:19 2019
 def TimeCnvrt(i):
     i=str(i)
     j=i.split(':')
+    j=j[:3]
     j=[int(k) for k in j]
-    if len(j)<3:
-        return j[0],j[1],0
-    else:
-        return j[0],j[1],j[2]
+    while len(j)<3:
+        j.append(0)
+    for k in range(2):
+        j[k]+=j[k+1]//60
+        j[k+1]=j[k+1]%60
+    return j[0],j[1],j[2]
     
 def SbtrctTime(E,L):
     E=TimeCnvrt(E)
     L=TimeCnvrt(L)
-    return E,L
-print (SbtrctTime('16:52:34','5:02'))
+    D=[L[i]-E[i] for i in range(3)]
+    return D
+print (SbtrctTime('16:67:64','5:02'))
