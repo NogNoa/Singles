@@ -4,31 +4,20 @@ Created on Sat Sep 21 12:50:19 2019
 
 @author: omer
 """
-def PlceCnvrt(t):
-    
+#def PlceCnvrt(t):
 
+    
 def TimeCnvrt(i):
     i=str(i)
-    mid=i.index(':')
-    H=int(i[:mid])
-    i=i[mid+1:]
-    mid=i.find(':')
-    try:
-        M=int(i[:mid])        
-    except:
-        return H,0,0
-    if mid==-1:
-        return H,M,0
-    i=i[mid+1:]
-    mis=i.find(':')
-    if i!='':
-        S=i
+    j=i.split(':')
+    j=[int(k) for k in j]
+    if len(j)<3:
+        return j[0],j[1],0
     else:
-        S=0
-    return H,M,S
+        return j[0],j[1],j[2]
     
 def SbtrctTime(E,L):
     E=TimeCnvrt(E)
     L=TimeCnvrt(L)
     return E,L
-print (SbtrctTime('16:52','5:02'))
+print (SbtrctTime('16:52:34','5:02'))
