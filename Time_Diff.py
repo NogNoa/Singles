@@ -31,7 +31,7 @@ def SbtrctTime(E,L):
     else:
         D=[E[i]-L[i] for i in range(3)]
     D=UntMnger(D)
-    Ans=str('-('*sign+str(D[0])+':'+str(D[1])+':'+str(D[2])+')'*sign)
+    Ans=str(D[0])+':'+str(D[1])+':'+str(D[2])
     return Ans
-print (SbtrctTime('0:97:60','16:67:64'))
+print (SbtrctTime('22:00:00','15:30'),SbtrctTime('16:00:00','9:30'))
 
