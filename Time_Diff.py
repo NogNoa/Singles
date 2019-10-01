@@ -7,11 +7,13 @@ Created on Sat Sep 21 12:50:19 2019
 #def PlceCnvrt(t):
 def UntMnger(j):
     for k in range(2):
+        #take care of negatives and >60 for mins and secs
         j[k]+=j[k+1]//60
         j[k+1]=j[k+1]%60
     return j
        
 def TimeCnvrt(i):
+    #converts each time from string to list of integers.
     i=str(i)
     j=i.split(':')
     j=j[:3]
@@ -31,8 +33,8 @@ def SbtrctTime(E,L):
     if not sign:
         D[0]+=24
         lu=str(L[0])+':'+str(L[1])+':'+str(L[2])
-        print('for',lu,'in next day')
-        #helps the user notice that a 'day overflow' had occured
+        print('For',lu,'in next day')
+        #notifies the user that a 'day overflow' had occured
     D=UntMnger(D)
     Ans=str(D[0])+':'+str(D[1])+':'+str(D[2])
     return Ans
