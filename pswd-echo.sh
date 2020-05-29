@@ -1,13 +1,13 @@
-# /bin/bash
 if [ $(< /proc/sys/kernel/hostname) = $winhostname ] 
 then 
-    fl=/mnt/g/$tablepath.csv
+    g=$winmountchar
 else
     if [ $(< /proc/sys/kernel/hostname) = $linhostname ] 
     then
-        fl=/mnt/Gate/$tablepath.csv
+        g=$linmountname
     fi
 fi
+fl=/mnt/$g/$tablepath.csv
 q=$1
 p="3"
 if [[ $1 = '--date' ]]
@@ -20,5 +20,10 @@ then
     q=$2
     p="2-3"
 fi
-cat $fl | grep -i $q | cut -d , -f $p | tr "," "\t" 
+if [ -e $1 ]
+then
+    echo 'please give me a name of a service you want the password for'    
+else
+    cat $fl | grep -i $q | cut -d , -f $p | tr "," "\t"
+fi
 #cut -d , -f 1 $fl
