@@ -1,3 +1,4 @@
+# /bin/bash
 if [ $(< /proc/sys/kernel/hostname) = $winhostname ] 
 then 
     fl=/mnt/g/$tablepath.csv
@@ -19,6 +20,6 @@ then
     q=$2
     p="2-3"
 fi
-cat $fl | grep $q | cut -d , -f $p | tr "," "\t"| tee clip.txt
+cat $fl | grep -i $q | cut -d , -f $p | tr "," "\t"| tee clip.txt
 xclip clip.txt && rm clip.txt
 #cut -d , -f 1 $fl
