@@ -16,7 +16,9 @@ then
 fi
 if [[ $1 = '-u' ]]
 then
+    q=$2
     p="2-3"
 fi
-cat $fl | grep $q | cut -d , -f $p | tr "," "\t"
+cat $fl | grep $q | cut -d , -f $p | tr "," "\t"| tee clip.txt
+xclip clip.txt && rm clip.txt
 #cut -d , -f 1 $fl
