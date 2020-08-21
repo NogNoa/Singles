@@ -1,4 +1,9 @@
-if [ $(< /proc/sys/kernel/hostname) = $winhostname ] 
+winhostname=
+linhostname=
+winmountchar=
+linmountname=
+tablepath=
+if [ $(< /proc/sys/kernel/hostname) = $winhostname ]
 then 
     g=$winmountchar
 else
@@ -22,7 +27,7 @@ then
 fi
 if [[ $1 = '--loc' ]]
 then
-    echo $g/$tablepath.csv
+    echo $g/$tablepath
     q=$2
 fi
 if [[ $1 = '-u' ]]
