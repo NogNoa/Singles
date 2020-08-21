@@ -10,9 +10,19 @@ fi
 fl=/mnt/$g/$tablepath.csv
 q=$1
 p="3"
+if [[ $1 = '--help' ]]
+then
+    echo "-u --help --date --loc"
+    q=$2
+fi
 if [[ $1 = '--date' ]]
 then
     stat $fl | grep Modify | cut -d ' ' -f 2
+    q=$2
+fi
+if [[ $1 = '--loc' ]]
+then
+    echo $g/$tablepath.csv
     q=$2
 fi
 if [[ $1 = '-u' ]]
