@@ -1,13 +1,18 @@
-if [ $(< /proc/sys/kernel/hostname) = WunderStatione ] 
+winhostname=
+linhostname=
+winmountchar=
+linmountname=
+tablepath=
+if [ $(< /proc/sys/kernel/hostname) = $winhostname ]
 then 
-    g=g
+    g=$winmountchar
 else
-    if [ $(< /proc/sys/kernel/hostname) = OakenShield ] 
+    if [ $(< /proc/sys/kernel/hostname) = $linhostname ] 
     then
-        g=gate
+        g=$linmountname
     fi
 fi
-fl=/mnt/$g/Data/ססמאות.csv
+fl=/mnt/$g/$tablepath.csv
 q=$1
 p="3"
 if [[ $1 = '--help' ]]
@@ -22,7 +27,7 @@ then
 fi
 if [[ $1 = '--loc' ]]
 then
-    echo $g/Data/ססמאות.csv
+    echo $g/$tablepath
     q=$2
 fi
 if [[ $1 = '-u' ]]
