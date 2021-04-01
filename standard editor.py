@@ -13,23 +13,47 @@ def parse(args):
 
 
 def insert(mode):
+    global focus
     if mode == '?':
         print("?")
         return
-    insert = True
+    r_insert = True
     cache = []
-    while insert:
+    while r_insert:
         line = input()
         if line == ".":
-            insert = False
+            r_insert = False
             if mode == '*':
                 stream.extend(cache)
+                focus = len(stream) - 1
             elif mode == '.':
                 stream[focus:focus] = cache
+                focus += len(cache)
             else:
                 stream[mode:mode] = cache
+                focus = mode + len(cache)
+            print(focus)
         else:
             cache.append(line + '\n')
+
+
+def edit(mode):
+    global stream
+    if mode in {'?', '*'}:
+        print("?")
+        return
+    elif mode == '.':
+        mode = focus
+    else:
+        # mode is a number
+        pass
+    cmd = input()
+    cmd = cmd.split('/')
+    if len(cmd) % 2:
+        cmd.append('')
+    for pl, string in enumerate(cmd[::2]):
+        stream[mode].replace(string, cmd[pl + 1])
+    print(stream[mode])
 
 
 def expose(args):
@@ -78,6 +102,7 @@ try:
 except FileNotFoundError:
     stream = []
 focus = 0
+print(focus)
 
 while run:
     line = input()
@@ -97,5 +122,8 @@ while run:
     elif line[0] == 'd':
         line = line.split(' ')
         delete(line[1:])
+    elif line[0] == 'e':
+        mode = parse(line[1:])
+        edit(mode)
     else:
         print("?")
