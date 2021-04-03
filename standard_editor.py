@@ -3,27 +3,33 @@ import argparse
 help_str = """
 A line editor inspired by Unix ed
 
-In the main State, enter an input of the form <action argument>
+In the main command mode, enter an input of the form <action argument>
 All actions are single letter. arguments are either an integer, nothing or either of '.' '*' without the apostrophes
 
 Arguments:
 Integer - Targets a specific line. Line indeces start at 0.
 . -       Targets the line that is in focus.
 * -       Targets all lines. 
+empty   - Giving no additional argument always act as '.'
 
 Actions:
 c - Changes the line that is in focus. 
-    The only possible argument is an integer.
+    . print the current focus.
+    * targets the end of the file.
 
 d - Deletes line.
 
-e - Enters an interactive mode that let you replace a segment of text with another.
+e - Enters an edit mode that let you replace a segment of text with another.
     The syntax is old/new/old/new... Deleting a segment with a final / is possible.
 
-i - Enters an interactive mode that let you insert text into the file.
+i - Enters an input mode that let you insert text into the file.
     * targets the end of the file. 
-    To exit the interactive mode enter only '.'
+    To exit the input mode enter a line consisting only of '.'
     When you do, focus will automatically pass to the end of the inserted text.
+
+m- Moves by copy the line in focus to the target.
+    md - deletes the original as well
+    * targets the end of the file
 
 p - prints line to the console.
 
@@ -113,9 +119,14 @@ def expose(arg):
 
 def chose(arg):
     arg = parse(arg)
-    if arg in {'*', '.', '?'}:
+    if arg == '?':
         print('?')
         return focus
+    elif arg == '.':
+        print(focus)
+        return focus
+    elif arg == '*':
+        return len(stream) - 1
     else:
         return arg
 
@@ -136,7 +147,18 @@ def delete(arg):
         del stream[arg]
 
 
-parser = argparse.ArgumentParser(description=help_str,  formatter_class=argparse.RawTextHelpFormatter)
+def move(arg, focus):
+    arg = parse(arg)
+    cache = stream[focus]
+    if arg == '*':
+        stream.append(cache)
+    elif arg == '.':
+        stream.insert(focus, cache)
+    else:
+        stream.insert(arg + 1, cache)
+
+
+parser = argparse.ArgumentParser(description=help_str, formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument('name', default="the standard.txt", help="Name of the file you want to edit")
 name = parser.parse_args().name
 run = True
@@ -146,7 +168,7 @@ try:
         stream = file.readlines()
 except FileNotFoundError:
     stream = []
-focus = 0
+focus = len(stream) - 1
 print(focus)
 
 while run:
@@ -168,6 +190,11 @@ while run:
     elif line[0] == 'e':
         mode = parse(line[1:])
         edit(mode)
+    elif line[0][0] == 'm':
+        move(line[1:], focus)
+        if line[0] == 'md':
+            delete([focus])
+
     else:
         print("?")
 
