@@ -9,10 +9,10 @@ In the main command mode, enter an input of the form <action argument>
 All actions are single letter. arguments are either an integer, nothing or either of '.' '*' without the apostrophes
 
 Arguments:
-Integer - Targets a specific line. Line indeces start at 0.
+Integer - Targets a specific line. Line indeces starts at 0.
 . -       Targets the line that is in focus.
 * -       Targets all lines. 
-empty   - Giving no additional argument always act as '.'
+empty   - Giving no additional argument always acts as '.'
 
 Actions:
 c - Changes the line that is in focus. 
@@ -35,7 +35,7 @@ m- Moves by copy the line in focus to the target.
 
 p - prints line to the console.
 
-q - Saves the file and exit the program.
+q - Saves the file and exits the program.
     unique argument '!' to not save.
 
 Back to Python's Help message:
@@ -161,8 +161,8 @@ def move(arg, focus):
 
 
 parser = argparse.ArgumentParser(description=help_str, formatter_class=argparse.RawTextHelpFormatter)
-parser.add_argument('name', default="the standard.txt", help="Name of the file you want to edit")
-name = parser.parse_args().name
+parser.add_argument('-n', default="the standard.txt", help="Name of the file you want to edit")
+name = parser.parse_args().n
 run = True
 
 try:
@@ -193,16 +193,16 @@ while run:
         elif line[0] == 'e':
             mode = parse(line[1:])
             edit(mode)
-        elif line[0][0] == 'm':
+        elif 'm' in line[0]:
             move(line[1:], focus)
             if line[0] == 'md':
                 delete([focus])
         else:
             print("?")
-    execpt Exception:
-        with open(name, "w+") as file:
+    except Exception as error:
+        with open(name + ".bak", "w+") as file:
             file.write("".join(stream))
-        raise Exection
+        raise error
         
 
 # TODO edit() keep the line unchanged
