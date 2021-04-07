@@ -91,7 +91,7 @@ def edit(mode):
     def tr(cmd, line):
         global stream
         for pl, string in enumerate(cmd[::2]):
-            stream[line].replace(string, cmd[pl + 1])
+            stream[line] = stream[line].replace(string, cmd[pl + 1])
 
     cmd = input()
     cmd = cmd.split('/')
@@ -169,7 +169,7 @@ try:
     with open(name, "r+") as file:
         stream = file.readlines()
 except FileNotFoundError:
-    stream = []
+    stream = ['']
 focus = len(stream) - 1
 print(focus)
 
@@ -203,6 +203,3 @@ while run:
         with open(name + ".bak", "w+") as file:
             file.write("".join(stream))
         raise error
-        
-
-# TODO edit() keep the line unchanged
