@@ -175,29 +175,34 @@ print(focus)
 
 while run:
     line = input().split(' ')
-    if line[0] == 'q':
-        if not line[1:] == ['!']:
-            with open(name, "w+") as file:
-                file.write("".join(stream))
-        run = False
-    elif line[0] == 'i':
-        mode = parse(line[1:])
-        insert(mode)
-    elif line[0] == 'p':
-        expose(line[1:])
-    elif line[0] == 'c':
-        focus = chose(line[1:])
-    elif line[0] == 'd':
-        delete(line[1:])
-    elif line[0] == 'e':
-        mode = parse(line[1:])
-        edit(mode)
-    elif line[0][0] == 'm':
-        move(line[1:], focus)
-        if line[0] == 'md':
-            delete([focus])
-
-    else:
-        print("?")
+    try:
+        if line[0] == 'q':
+            if not line[1:] == ['!']:
+                with open(name, "w+") as file:
+                    file.write("".join(stream))
+            run = False
+        elif line[0] == 'i':
+            mode = parse(line[1:])
+            insert(mode)
+        elif line[0] == 'p':
+            expose(line[1:])
+        elif line[0] == 'c':
+            focus = chose(line[1:])
+        elif line[0] == 'd':
+            delete(line[1:])
+        elif line[0] == 'e':
+            mode = parse(line[1:])
+            edit(mode)
+        elif line[0][0] == 'm':
+            move(line[1:], focus)
+            if line[0] == 'md':
+                delete([focus])
+        else:
+            print("?")
+    execpt Exception:
+        with open(name, "w+") as file:
+            file.write("".join(stream))
+        raise Exection
+        
 
 # TODO edit() keep the line unchanged
