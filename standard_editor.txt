@@ -1,4 +1,4 @@
-usage: standard_editor.py [-h] name
+usage: standard_editor.py [-h] [-n N]
 
 A line editor inspired by Unix ed
 
@@ -6,10 +6,10 @@ In the main command mode, enter an input of the form <action argument>
 All actions are single letter. arguments are either an integer, nothing or either of '.' '*' without the apostrophes
 
 Arguments:
-Integer - Targets a specific line. Line indeces start at 0.
+Integer - Targets a specific line. Line indeces starts at 0.
 . -       Targets the line that is in focus.
 * -       Targets all lines. 
-empty   - Giving no additional argument always act as '.'
+empty   - Giving no additional argument always acts as '.'
 
 Actions:
 c - Changes the line that is in focus. 
@@ -32,13 +32,11 @@ m- Moves by copy the line in focus to the target.
 
 p - prints line to the console.
 
-q - Saves the file and exit the program.
+q - Saves the file and exits the program.
     unique argument '!' to not save.
 
 Back to Python's Help message:
 
-positional arguments:
-  name        Name of the file you want to edit
-
 optional arguments:
   -h, --help  show this help message and exit
+  -n N        Name of the file you want to edit
