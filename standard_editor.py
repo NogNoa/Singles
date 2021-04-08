@@ -90,8 +90,10 @@ def edit(mode):
 
     def tr(cmd, line):
         global stream
-        for pl, string in enumerate(cmd[::2]):
-            stream[line] = stream[line].replace(string, cmd[pl + 1])
+        old = cmd[::2]
+        new = cmd[1::2]
+        for pl, old_str in enumerate(old):
+            stream[line] = stream[line].replace(old_str, new[pl])
 
     cmd = input()
     cmd = cmd.split('/')
@@ -130,7 +132,7 @@ def chose(arg):
     elif arg == '*':
         return len(stream) - 1
     else:
-        return max(arg, len(stream) - 1)
+        return min(arg, len(stream) - 1)
 
 
 def delete(arg):
