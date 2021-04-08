@@ -108,58 +108,57 @@ def edit(mode):
         print(f"{mode}  {stream[mode]}")
 
 
-def expose(arg):
-    arg = parse(arg)
-    if arg == '*':
+def expose(mode):
+    if mode == '*':
         for pl, line in enumerate(stream):
             print(f"{pl}  {line}")
-    elif arg == '.':
+    elif mode == '.':
         print(f"{focus}  {stream[focus]}")
-    elif arg == '?':
+    elif mode == '?':
         print('?')
     else:
-        print(f"{arg}  {stream[arg]}")
+        print(f"{mode}  {stream[mode]}")
 
 
-def chose(arg):
-    arg = parse(arg)
-    if arg == '?':
+def chose(mode):
+    if mode == '?':
         print('?')
         return focus
-    elif arg == '.':
+    elif mode == '.':
         print(focus)
         return focus
-    elif arg == '*':
+    elif mode == '*':
         return len(stream) - 1
     else:
-        return min(arg, len(stream) - 1)
+        return min(mode, len(stream) - 1)
 
 
-def delete(arg):
+def delete(mode):
     global stream
-    arg = parse(arg)
-    if arg == '*':
+    if mode == '*':
         print('???')
         if input() == "y":
             stream.clear()
             # That's just evil.
-    elif arg == '.':
+    elif mode == '.':
         del stream[focus]
-    elif arg == '?':
+    elif mode == '?':
         print('?')
     else:
-        del stream[arg]
+        del stream[mode]
 
 
-def move(arg, focus):
-    arg = parse(arg)
+def move(mode, focus):
+    global stream
     cache = stream[focus]
-    if arg == '*':
+    if mode == '?':
+        print('?')
+    elif mode == '*':
         stream.append(cache)
-    elif arg == '.':
+    elif mode == '.':
         stream.insert(focus, cache)
     else:
-        stream.insert(arg + 1, cache)
+        stream.insert(mode + 1, cache)
 
 
 parser = argparse.ArgumentParser(description=help_str, formatter_class=argparse.RawTextHelpFormatter)
@@ -177,34 +176,37 @@ print(focus)
 
 while run:
     line = input().split(' ')
+    act = line[0]
+    mode = parse(line[1:])
     try:
-        if line[0] == 'q':
+        if act == 'q':
             if not line[1:] == ['!']:
                 with open(name, "w+") as file:
                     file.write("".join(stream))
             run = False
-        elif line[0] == 'i':
-            mode = parse(line[1:])
+        elif act == 'i':
             insert(mode)
-        elif line[0] == 'p':
-            expose(line[1:])
-        elif line[0] == 'c':
-            focus = chose(line[1:])
-        elif line[0] == 'd':
-            delete(line[1:])
-        elif line[0] == 'e':
-            mode = parse(line[1:])
+        elif act == 'p':
+            expose(mode)
+        elif act == 'c':
+            focus = chose(mode)
+        elif act == 'd':
+            delete(mode)
+        elif act == 'e':
             edit(mode)
-        elif line[0][:1] == 'm':
-            move(line[1:], focus)
+        elif act[:1] == 'm':
+            move(mode, focus)
             if line[0] == 'md':
                 delete([focus])
         else:
             print("?")
     except Exception as error:
-        with open(name + ".bak", "w+") as file:
+        with open(name, "w+") as file:
             file.write("".join(stream))
         raise error
 
-#  get the parsing out of chose so edit and move change focus with chose
-#  make choose the only place when focus changes
+#  todo: move change focus with chose
+#        make choose the only place where focus changes
+#         bug with md 2 (mode is list for some reason)
+#  done: get the parsing out of chose so edit
+#
