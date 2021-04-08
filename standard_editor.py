@@ -134,7 +134,7 @@ def chose(mode):
 
 
 def delete(mode):
-    global stream
+    global stream, focus
     if mode == '*':
         print('???')
         if input() == "y":
@@ -147,6 +147,10 @@ def delete(mode):
     else:
         del stream[mode]
 
+    if not stream:
+        stream = ['']
+    focus = min(len(stream)-1, focus)
+
 
 def move(mode, focus):
     global stream
@@ -158,7 +162,7 @@ def move(mode, focus):
     elif mode == '.':
         stream.insert(focus, cache)
     else:
-        stream.insert(mode + 1, cache)
+        stream.insert(mode, cache)
 
 
 parser = argparse.ArgumentParser(description=help_str, formatter_class=argparse.RawTextHelpFormatter)
@@ -197,16 +201,17 @@ while run:
         elif act[:1] == 'm':
             move(mode, focus)
             if line[0] == 'md':
-                delete([focus])
+                delete(focus)
+            focus = chose(mode)
         else:
             print("?")
     except Exception as error:
-        with open(name, "w+") as file:
+        with open(name + '.bak', "w+") as file:
             file.write("".join(stream))
         raise error
 
-#  todo: move change focus with chose
-#        make choose the only place where focus changes
-#         bug with md 2 (mode is list for some reason)
+#  todo: make choose the only place where focus changes
 #  done: get the parsing out of chose so edit
-#
+#       bug with md 2 (mode was list becuase we try to enter input for parse and than moved parse out)
+#       move change focus with chose
+#       by delete focus can still get over the end
