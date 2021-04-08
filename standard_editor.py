@@ -103,7 +103,7 @@ def edit(mode):
             tr(cmd, line)
     else:
         tr(cmd, mode)
-        print(stream[mode])
+        print(f"{mode}  {stream[mode]}")
 
 
 def expose(arg):
@@ -130,7 +130,7 @@ def chose(arg):
     elif arg == '*':
         return len(stream) - 1
     else:
-        return arg
+        return max(arg, len(stream) - 1)
 
 
 def delete(arg):
@@ -193,7 +193,7 @@ while run:
         elif line[0] == 'e':
             mode = parse(line[1:])
             edit(mode)
-        elif 'm' in line[0]:
+        elif line[0][:1] == 'm':
             move(line[1:], focus)
             if line[0] == 'md':
                 delete([focus])
@@ -203,3 +203,6 @@ while run:
         with open(name + ".bak", "w+") as file:
             file.write("".join(stream))
         raise error
+
+#  get the parsing out of chose so edit and move change focus with chose
+#  make choose the only place when focus changes
