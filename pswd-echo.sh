@@ -4,13 +4,12 @@ winmountchar=
 linmountname=
 tablepath=
 if [ $(< /proc/sys/kernel/hostname) = $winhostname ]
-then 
+    then 
     g=$winmountchar
-else
-    if [ $(< /proc/sys/kernel/hostname) = $linhostname ] 
+else if [ $(< /proc/sys/kernel/hostname) = $linhostname ] 
     then
-        g=$linmountname
-    fi
+    g=$linmountname
+     fi
 fi
 fl=/mnt/$g/$tablepath.csv
 q=$1
@@ -39,6 +38,5 @@ if [ -e $1 ]
 then
     echo 'please give me a name of a service you want the password for'    
 else
-    cat "$fl" | grep -i $q | cut -d \t -f $p 
+    cat "$fl" | grep -i $q | cut -f $p 
 fi
-#cut -d \t -f 1 $fl
