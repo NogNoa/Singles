@@ -14,7 +14,7 @@ else
 fi
 fl=/mnt/$g/$tablepath.csv
 q=$1
-p="3"
+p="1,3"
 if [[ $1 = '--help' ]]
 then
     echo "-u --help --date --loc"
@@ -33,12 +33,12 @@ fi
 if [[ $1 = '-u' ]]
 then
     q=$2
-    p="2-3"
+    p="1-3"
 fi
 if [ -e $1 ]
 then
     echo 'please give me a name of a service you want the password for'    
 else
-    cat $fl | grep -i $q | cut -d , -f $p | tr "," "\t"
+    cat "$fl" | grep -i $q | cut -d \t -f $p 
 fi
-#cut -d , -f 1 $fl
+#cut -d \t -f 1 $fl
