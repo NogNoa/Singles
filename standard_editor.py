@@ -29,14 +29,23 @@ i - Enters an input mode that let you insert text into the file.
     To exit the input mode enter a line consisting only of '.'
     When you do, focus will automatically pass to the end of the inserted text.
 
+j - Joins a line with the one after it
+    * targets the line before the last.
+
 m- Moves by copy the line in focus to the target.
     md - deletes the original as well
     * targets the end of the file
 
-p - prints line to the console.
+p - Prints line to the console.
 
 q - Saves the file and exits the program.
     unique argument '!' to not save.
+    
+v - Divides a line.
+    * targets the end of the file.
+    Enters a divide mode where you need to enter a phrase.
+    The line will be divided immedietly after the phrase. Multiple divisions are possible.
+    To exit divide mode enter an empty line or '.'. to divide on a '.' just add charecters before it.
 
 Back to Python's Help message:
 """
@@ -53,7 +62,10 @@ def parse(args):
         else:
             return '?'
     else:
-        return line
+        if line >= len(stream):
+            return '?'
+        else:
+            return line
 
 
 def insert(mode):
@@ -149,10 +161,10 @@ def delete(mode):
 
     if not stream:
         stream = ['']
-    focus = min(len(stream)-1, focus)
+    focus = min(len(stream) - 1, focus)
 
 
-def move(mode, focus):
+def move(mode):
     global stream
     cache = stream[focus]
     if mode == '?':
@@ -163,6 +175,37 @@ def move(mode, focus):
         stream.insert(focus, cache)
     else:
         stream.insert(mode, cache)
+
+
+def divide(mode):
+    global stream
+    if mode == '?':
+        print("?")
+        return
+    elif mode == '.':
+        mode = focus
+    phrs = input()
+    if phrs in {'.', ''}:
+        return
+    if mode == '*':
+        for line, _ in enumerate(stream):
+            stream[line] = stream[line].replace(phrs, phrs + '\n')
+    else:
+        stream[mode] = stream[mode].replace(phrs, phrs + '\n')
+
+
+def join(mode):
+    global stream
+    if mode == '?':
+        print("?")
+        return
+    elif mode == '.':
+        mode = focus
+    if mode in {'*', len(stream) - 1}:
+        mode = len(stream) - 2
+    cache = stream[mode + 1]
+    delete(mode + 1)
+    stream[mode].append(' ' + cache)
 
 
 parser = argparse.ArgumentParser(description=help_str, formatter_class=argparse.RawTextHelpFormatter)
@@ -198,8 +241,12 @@ while run:
             delete(mode)
         elif act == 'e':
             edit(mode)
+        elif act == 'v':
+            divide(mode)
+        elif act == 'j':
+            join(mode)
         elif act[:1] == 'm':
-            move(mode, focus)
+            move(mode)
             if line[0] == 'md':
                 delete(focus)
             focus = chose(mode)
@@ -212,7 +259,8 @@ while run:
         raise error
 
 #  todo: make choose the only place where focus changes
+#       join and divide: the stream is actually a list not \n separated text.
 #  done: get the parsing out of chose so edit
-#       bug with md 2 (mode was list becuase we try to enter input for parse and than moved parse out)
+#       bug with md 2 (mode was list because we try to enter input for parse and than moved parse out)
 #       move change focus with chose
 #       by delete focus can still get over the end
