@@ -1,0 +1,11 @@
+If a man is the most senior member of the family, he leave half his land to each of his eldest sons.
+Otherwise he leave a third to each of them and a third is sent to the most senior descendent of the most recent older brother of one of his ancestors.
+
+each noble should have a land value that is immutable. but also a mutable land cache for more complicated inheritance.
+
+Making a new generation
+1. Initialised kids.
+2. everyone beside the king sends ÷3 of their land to find a cache. 
+3. the land travels from son to father until it's find an older brother and from there to his most senior descendent of the current generation
+4. than non-king leave ÷3 of their land to their current son and ÷3 + cache to the older. king does the same but with ÷2 instead of ÷3.
+
