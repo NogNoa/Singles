@@ -208,6 +208,7 @@ while run:
     except Exception as error:
         with open(name + '.bak', "w+") as file:
             file.write("".join(stream))
+            print(f"Something bad happened. But a backup of your file was saved as {name}.bak")
         raise error
 
 #  todo: make choose the only place where focus changes
