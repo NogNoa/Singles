@@ -44,8 +44,8 @@ q - Saves the file and exits the program.
 v - Divides a line.
     * targets the end of the file.
     Enters a divide mode where you need to enter a phrase.
-    The line will be divided immedietly after the phrase. Multiple divisions are possible.
-    To exit divide mode enter an empty line or '.'. to divide on a '.' just add charecters before it.
+    The line will be divided immedietly after every single occurance of the phrase.
+    To exit divide mode, enter an empty line or '.'. to divide on a '.' just add charecters before it.
 
 Back to Python's Help message:
 """
@@ -179,6 +179,15 @@ def move(mode):
 
 def divide(mode):
     global stream
+
+    def div_main(pl_line, line):
+        pl_phrs = line.find(phrs)
+        while pl_phrs != -1:
+            stream[pl_line] = line[:pl_phrs]
+            stream.insert(pl_line + 1, line[pl_phrs:])
+            line = line[pl_phrs+len(phrs):]
+            pl_phrs = line.find(phrs)
+
     if mode == '?':
         print("?")
         return
@@ -188,10 +197,10 @@ def divide(mode):
     if phrs in {'.', ''}:
         return
     if mode == '*':
-        for line, _ in enumerate(stream):
-            stream[line] = stream[line].replace(phrs, phrs + '\n')
+        for pl_line, line in enumerate(stream):
+            div_main(pl_line, line)
     else:
-        stream[mode] = stream[mode].replace(phrs, phrs + '\n')
+        div_main(mode, stream[mode])
 
 
 def join(mode):
@@ -259,7 +268,9 @@ while run:
         raise error
 
 #  todo: make choose the only place where focus changes
-#       join and divide: the stream is actually a list not \n separated text.
+#        move global focus inside choose() than.
+#        join and divide: the stream is actually a list not \n separated text.
+#        recursion not a while loop
 #  done: get the parsing out of chose so edit
 #       bug with md 2 (mode was list because we try to enter input for parse and than moved parse out)
 #       move change focus with chose
