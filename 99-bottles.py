@@ -1,8 +1,10 @@
 for i in range(3,0,-1):
-	bottles= lambda j: "bottle" + "s" * bool(j-1)
+	bt= lambda j: "bottle" + "s" * bool(j-1)
+	br="of beer"
+	w="on the wall"
 	print(
-f"""{i} {bottles(i)} of beer on the wall
-{i} {bottles(i)} of beer
+f"""{i} {bt(i)} {br} {w}
+{i} {bt(i)} {br}
 Take one down, pass it around
-{i-1} {bottles(i-1)} of beer on the wall
+{i-1} {bt(i-1)} {br} {w}
 """)
