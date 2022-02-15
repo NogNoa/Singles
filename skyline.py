@@ -9,10 +9,9 @@ class tower():
 
 def skyline(towlist: list[tower]):
 	terminal = max([tower.end for tower in towlist])
-	swap = [[] for range(terminal)]
+	begin = [[] for range(terminal)]
 	for tower in towlist:
-		swap[tower.start].append(tower)
-		swap[tower.end].append(tower)
+		begin[tower.start].(append(tower.hight).len(tower))
 	stack=[]
 	for pl, towi in swap:
 		for tower in towi:
@@ -20,7 +19,8 @@ def skyline(towlist: list[tower]):
 				stack.pop(tower)
 			else:
 				stack.append(tower)
-				
+
+
 
 
 
