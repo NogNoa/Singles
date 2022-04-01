@@ -1,2 +1,4 @@
 .idea/
 the standard*.txt
+*.bak
+__pycache__/
