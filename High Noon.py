@@ -174,7 +174,7 @@ def give_up():
 def run(P):
     try:
         F = int(input("How far did you run?"))
-    except:
+    except ValueError:
         print("That's not a distance")
         moves()
         return
@@ -253,56 +253,58 @@ def status(P, C):
 
 
 def miss(P, C):
-    resp = [None]
-    resp.append("Whew, were you lucky. That bullet just missed your head.\n" + status(1, C))
-    resp.append("But Bart got you in the right shin.")
-    resp.append("Though Bart got you on the left side of your jaw")
-    resp.append("Bart Must have jerked the trigger")
+    resp = [None,
+            "Whew, were you lucky. That bullet just missed your head.\n" + status(1, C),
+            "But Bart got you in the right shin.",
+            "Though Bart got you on the left side of your jaw",
+            "Bart Must have jerked the trigger"]
     print(resp[P])
 
 
 def hit(P, C):
-    resp = [None]
-    resp.append(status(P, 1))
-    resp.append("Grazed Bart in the right arm")
-    resp.append("HE'S HIT IN THE LEFT SHOULDER, FORCING HIM TO USE HIS RIGHT\nHAND TO SHOOT WITH")
-    resp.append(
-        "Nice going, ace. You've run out of shells.\nNow Bart won't shoot until you touch noses.\nYou better think of "
-        "something fast (Like run).")
+    resp = [None,
+            status(P, 1),
+            "Grazed Bart in the right arm",
+            "HE'S HIT IN THE LEFT SHOULDER, FORCING HIM TO USE HIS RIGHT\n"
+            "HAND TO SHOOT WITH",
+            "Nice going, ace. You've run out of shells.\n"
+            "Now Bart won't shoot until you touch noses.\n"
+            "You better think of something fast (Like run)."]
     print(resp[C])
 
 
 def fin(x):
     # 2080
     global P
-    resp = []
-    resp.append("BART SHOT YOU RIGHT THROUGH THE HEART THAT TIME.\nYOU WENT KICKIN' WITH YOUR BOOTS ON.")  # resp[0]
-    resp.append(
-        "WHAT A SHOT, YOU GOT BART RIGHT BETWEEN THE EYES.\n\nAS MAYOR OF DODGE CITY, AND ON BEHALF OF ITS CITIZENS,"
-        "\nI EXTEND TO YOU OUR THANKS, AND PRESENT YOU WITH THIS\nREWARD, A CHECK FOR $20,000, FOR KILLING BLACK "
-        "BART.\n\n************************************************************\n\nCHECK NO."
-        + str(randint(0, 100)) + "\t\t\t\tAUG."
-        + str(randint(0, 10) + 10)
-        + "TH. 1889\n\t\t   CASHIER'S "
-          "RECEIT---BANK OF "
-          "DODGE CITY\n\t\t\tPAY TO THE BEARER ON "
-          "DEMAND\n\t\t\t\tTHE SUM OF\n\tTWENTY "
-          "THOUSAND DOLLARS----------------------$20, 000\n\n"
-          "************************************************************\n\n"
-          "DON'T SPEND IT ALL IN ONE PLACE.")  # resp[1]
-    resp.append("Greenhorn")  # 1370    resp[2]
-    resp.append("A very wise decison.")  # resp[3]
-    resp.append("MAN DID HE RUN. HE RAN SO FAST EVEN THE DOGS COULDN'T\nCATCH HIM")  # resp[4]
-    resp.append(
-        "YOU WERE LUCKY, BART CAN ONLY THROW HIS GUN AT YOU, HE\nDOESN'T HAVE ANY SHELLS LEFT. YOU SHOULD REALLY BE "
-        "DEAD.")  # resp[5]
-    resp.append("HE GOT YOU RIGHT IN THE BACK. THATS WHAT YOU DESERVE\n FOR RUNNING.")  # resp[6]
-    resp.append(
-        f"BLACK BART UNLOADED HIS GUN, ONCE IN YOUR BACK\nAND {3-P} TIMES IN YOUR A**. NOW YOU CAN'T EVEN REST IN "
-        "\nPEACE.")  # resp[7]
-    resp.append(
-        "BART JUST HI-TAILED IT OUT OF TOWN RATHER THAN FACE YOU WITH-\nOUT A LOADED GUN. YOU CAN REST ASSURED THAT "
-        "BART WON'T EVER\nSHOW HIS FACE AROUND THIS TOWN AGAIN.")  # resp[8]
+    resp = ["BART SHOT YOU RIGHT THROUGH THE HEART THAT TIME.\n"
+            "YOU WENT KICKIN' WITH YOUR BOOTS ON.",
+            "WHAT A SHOT, YOU GOT BART RIGHT BETWEEN THE EYES.\n\n"
+            "AS MAYOR OF DODGE CITY, AND ON BEHALF OF ITS CITIZENS,\n"
+            "I EXTEND TO YOU OUR THANKS, AND PRESENT YOU WITH THIS\n"
+            "REWARD, A CHECK FOR $20,000, FOR KILLING BLACK "
+            "BART.\n\n"
+            "************************************************************\n\n"
+            f"CHECK NO. {randint(0, 100)}\t\t\t\tAUG. {randint(0, 10) + 10} TH. 1889\n"
+            "\t\t   CASHIER'S RECEIT---BANK OF DODGE CITY\n"
+            "\t\t\tPAY TO THE BEARER ON DEMAND\n"
+            "\t\t\t\tTHE SUM OF\n"
+            "\tTWENTY THOUSAND DOLLARS----------------------$20, 000\n\n"
+            "************************************************************\n\n"
+            "DON'T SPEND IT ALL IN ONE PLACE.",
+            "Greenhorn",
+            "A very wise decison.",
+            "MAN DID HE RUN. HE RAN SO FAST EVEN THE DOGS COULDN'T\n"
+            "CATCH HIM",
+            "YOU WERE LUCKY, BART CAN ONLY THROW HIS GUN AT YOU, HE\n"
+            "DOESN'T HAVE ANY SHELLS LEFT. YOU SHOULD REALLY BE DEAD.",
+            "HE GOT YOU RIGHT IN THE BACK. THATS WHAT YOU DESERVE\n"
+            " FOR RUNNING.",
+            f"BLACK BART UNLOADED HIS GUN, ONCE IN YOUR BACK\n"
+            f"AND {3 - P} TIMES IN YOUR A**. NOW YOU CAN'T EVEN REST IN \n"
+            f"PEACE.",
+            "BART JUST HI-TAILED IT OUT OF TOWN RATHER THAN FACE YOU WITH-\n"
+            "OUT A LOADED GUN. YOU CAN REST ASSURED THAT BART WON'T EVER\n"
+            "SHOW HIS FACE AROUND THIS TOWN AGAIN."]
     print(resp[x])
     print('\nC.G. INC')
     B = input('Do you want to play again?').upper()[0]  # Original: always stops the program
@@ -314,17 +316,17 @@ def fin(x):
 
 main()
 
-# Original (slightly edited by me) variables discriptions
+# Original (slightly edited by me) variables descriptions
 #   D$--instruction need
 #   A$--Intent to continue the game after receiving instructions -- not used
 #   A---Stores your lucky number
-#   I---Used for the random number generetor
+#   I---Used for the random number generator
 #   X---Denotes the distance between you two
 #   B---Denotes the number of your move choice
 #   S---The number of paces you advance
 #   C---Counter for the number of your shells
 #   W---Random number for the hitting of bart
-#   Q---Random number for Bart choice wheter to walk or fire
+#   Q---Random number for Bart choice whether to walk or fire
 #   Z---Random number for the amount of paces bart advance
 #   P---Counter for bart's remaining shells
 #   R---random number for Bart's success at hitting you
@@ -332,4 +334,4 @@ main()
 #   F---Distance you have ran
 #   H$--Decision on giving up
 # variables that I came to add
-#   j---binary value for wheter you've jump behind the watering trough
+#   j---binary value for whether you've jump behind the watering trough
