@@ -31,6 +31,7 @@ ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF S
 DAMAGE."""
 
 
+
 def main():
     # 110
     print(" " * 28, 'HIGH NOON\n', " " * 27, '~' * 9, '\n' * 2)
@@ -38,7 +39,7 @@ def main():
     if not want == "N":  # original: has to be the full NO
         instruct()  # 180
     rng = rng_init()  # 460
-    # 530
+    dist = dist_init()  # 530
 
 
 def instruct():
@@ -70,3 +71,17 @@ def rng_init():
     lucky = (lucky % 1) * 1e3 // 1
     random.seed(lucky)
     return random.randint  # 530
+
+
+def dist_init():
+    # 530
+    dist = 100
+
+    def dist_show():
+        return dist
+    return dist_show
+
+
+def fin(resp):
+    # (,,1370)[resp]
+    pass
