@@ -34,8 +34,8 @@ DAMAGE."""
 def main():
     # 110
     print(" " * 28, 'HIGH NOON\n', " " * 27, '~' * 9, '\n' * 2)
-    d = input("Do you want instructions?").upper()[0]  # original: only upper case
-    if not d == "N":  # original: has to be the full NO
+    want = input("Do you want instructions?").upper()[0]  # original: only upper case
+    if not want == "N":  # original: has to be the full NO
         instruct()  # 180
     rng = rng_init()  # 460
     # 530
@@ -54,8 +54,8 @@ def instruct():
                   'the walk, neither can miss. The closer you get, the better'
                   "your chances of hitting bart, but he also has better chances"
                   'of hitting you.')
-    a = input('Do you still want to continue?').upper()[0]
-    if a is "N":
+    want = input('Do you still want to continue?').upper()[0]
+    if want == "N":
         fin(2)  # 1370
     else:
         return  # 460
@@ -65,8 +65,8 @@ def rng_init():
     # 460
     import random
     import math
-    a = float(input("What is your lucky number for today?"))
-    a = 1e4 * math.fabs(math.sin(a))
-    a = (a % 1) * 1e3 // 1
-    random.seed(a)
+    lucky = float(input("What is your lucky number for today?"))
+    lucky = 1e4 * math.fabs(math.sin(lucky))
+    lucky = (lucky % 1) * 1e3 // 1
+    random.seed(lucky)
     return random.randint  # 530
