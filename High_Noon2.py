@@ -31,7 +31,6 @@ ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF S
 DAMAGE."""
 
 
-
 def main():
     # 110
     print(" " * 28, 'HIGH NOON\n', " " * 27, '~' * 9, '\n' * 2)
@@ -39,7 +38,7 @@ def main():
     if not want == "N":  # original: has to be the full NO
         instruct()  # 180
     rng = rng_init()  # 460
-    dist = dist_init()  # 530
+    dist = distance_init()  # 530
 
 
 def instruct():
@@ -73,13 +72,19 @@ def rng_init():
     return random.randint  # 530
 
 
-def dist_init():
+def distance_init():
     # 530
-    dist = 100
+    dist = [100]
 
-    def dist_show():
-        return dist
-    return dist_show
+    def distance():
+        return dist[0]
+
+    def reduce(steps=0):
+        nonlocal dist
+        dist[0] -= steps
+
+    distance.reduce = reduce
+    return distance
 
 
 def fin(resp):
