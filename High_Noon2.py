@@ -74,14 +74,14 @@ def rng_init():
 
 def distance_init():
     # 530
-    dist = [100]
+    dist = 100
 
     def distance():
-        return dist[0]
+        return dist
 
     def reduce(steps=0):
         nonlocal dist
-        dist[0] -= steps
+        dist -= steps
 
     distance.reduce = reduce
     return distance
