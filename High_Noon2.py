@@ -33,7 +33,7 @@ DAMAGE."""
 
 def main():
     # 110
-    print(" " * 28, 'HIGH NOON\n', " " * 27, '~' * 9, '\n' * 2)
+    print('HIGH NOON'.center(65), "\n", ('~' * 9).center(63), '\n' * 2)
     want = input("Do you want instructions?").upper()[0]  # original: only upper case
     if not want == "N":  # original: has to be the full NO
         instruct()  # 180
