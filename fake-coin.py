@@ -16,9 +16,8 @@ def false_positive_rate(all: int, chosen: int) -> float:
 
 
 def test(accusation_treshold: float, catch_target: float):
-    satisfied = False
     flips = 1
-    while not satisfied:
+    while True:
         true_positives = [true_positive_rate(flips, heads) for heads in range(flips + 1)]
         false_positives = [false_positive_rate(flips, heads) for heads in range(flips + 1)]
         for heads_treshold in range(flips + 1):
@@ -31,9 +30,9 @@ def test(accusation_treshold: float, catch_target: float):
 
 if __name__ == "__main__":
     def main():
-        flips, heads_treshold, tps, fps = test(.05, .8)
+        flips, heads_treshold, tps, fps = test(.2, .95)
         print(f"Fliped {flips} coins.")
         print(f"Accused players who got {heads_treshold} or more heads.")
-        print(f"Accused {int(fps * 100)}% of fair players.")
-        print(f"Catched {int(tps * 100)}% of cheaters.")
+        print(f"Accused {fps:.2%} of fair players.")
+        print(f"Catched {tps:.2%} of cheaters.")
     main()
