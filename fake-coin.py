@@ -22,16 +22,16 @@ if __name__ == "__main__":
     flips = 1
     while not satisfied:
         heads_treshold = 0
-        while heads_treshold <= flips:
-            tpr = true_positive_rate(flips, heads_treshold)
-            fpr = false_positive_rate(flips, heads_treshold)
-            if tpr > catch_target and fpr < accusation_treshold:
+        for heads_treshold in range(flips+1):
+            true_positives = [true_positive_rate(flips, heads) for heads in range(flips+1)]
+            false_positives = [false_positive_rate(flips, heads) for heads in range(flips+1)]
+            true_positives_sum = sum(true_positives[heads_treshold:])
+            false_positives_sum = sum(false_positives[heads_treshold:])
+            if true_positives_sum > catch_target and false_positives_sum < accusation_treshold:
                 print(f"Fliped {flips} coins.")
                 print(f"Accused players who got {heads_treshold}% or more heads.")
-                print(f"Accused {int(fpr*100)}% of fair players.")
-                print(f"Catched {int(tpr*100)}% of cheaters.")
+                print(f"Accused {int(false_positives_sum*100)}% of fair players.")
+                print(f"Catched {int(true_positives_sum*100)}% of cheaters.")
                 satisfied = True
-            else:
-                heads_treshold += 1
         flips += 1
 
