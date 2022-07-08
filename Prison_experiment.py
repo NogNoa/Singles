@@ -13,12 +13,13 @@ def search_boxes(prisoner: int, boxi: List[int], tries: int):
     opened = []
     while True:
         recent = boxi[to_open]
+        opened.append(recent)
         if recent == prisoner:
             return True
-        elif (recent in opened) or (len(opened) + 1 >= tries):
+        elif (recent in opened[:-1]) or (len(opened) >= tries):
             return False
         else:
-            opened.append(recent)
+            to_open = recent
 
 
 if __name__ == "__main__":
@@ -30,4 +31,6 @@ if __name__ == "__main__":
                 break
             else:
                 print(f"prisoner {prisoner} found his number")
+
+
     main()
