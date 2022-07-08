@@ -15,9 +15,9 @@ def search_boxes(prisoner: int, boxi: List[int], tries: int):
         recent = boxi[to_open]
         opened.append(recent)
         if recent == prisoner:
-            return True
+            return True, opened
         elif (recent in opened[:-1]) or (len(opened) >= tries):
-            return False
+            return False, opened
         else:
             to_open = recent
 
@@ -25,12 +25,14 @@ def search_boxes(prisoner: int, boxi: List[int], tries: int):
 if __name__ == "__main__":
     def main(num=100):
         boxi = shuffled_boxes(num)
-        for prisoner in range(100):
-            if not search_boxes(prisoner, boxi, num // 2):
-                print(f"Prisoner {prisoner} failed to find his number")
-                break
+        for prisoner in range(num):
+            success, opened = search_boxes(prisoner, boxi, num // 2)
+            if success:
+                print(f"prisoner {prisoner} found his number, after checking: \n\t{opened}")
             else:
-                print(f"prisoner {prisoner} found his number")
+                print(f"Prisoner {prisoner} failed to find his number, after checking: \n\t{opened}")
+                break
+
 
 
     main()
