@@ -9,19 +9,22 @@ for file in tumbler.iterdir():
         hash, _, rest = rest.partition("_")
         size, _, ext = rest.partition(".")
         try:
-            fili["tumblr"][name] += {hash: {"size": size, "ext": ext}}
+            fili["tumblr"][name][hash] = {"size": size, "ext": ext}
         except KeyError:
             fili["tumblr"][name] = {hash: {"size": size, "ext": ext}}
     elif rest:
         name, _, rest = rest.partition("_")
-        size = int(rest.partition(".")[0])
-        if tag in fili.keys():
-            if name in fili[tag].keys():
-                fili[tag][name].append(size)
+        if rest:
+            size = int(rest.partition(".")[0])
+            if tag in fili.keys():
+                if name in fili[tag].keys():
+                    fili[tag][name].append(size)
+                else:
+                    fili[tag][name] = [size]
             else:
-                fili[tag] += {name: [size]}
+                fili[tag] = {name: [size]}
         else:
-            fili[tag] = {name: [size]}
+            fili["other"].append(tag+"_"+name)
     else:
         fili["other"].append(tag)
 with open("fili.json","w+") as codex:
