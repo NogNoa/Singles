@@ -36,7 +36,6 @@ DAMAGE."""
 
 #assume screen line length 64 char
 
-# from math import sin, fabs
 from random import randint
 from sys import exit
 
@@ -52,7 +51,7 @@ def main():
     global j
     print(" " * 28, 'HIGH NOON\n', " " * 27, '~' * 9, '\n' * 2)
     D = input("Do you want instructions?").upper()[0]  # original: only upper case
-    if D is not "N":  # original: has to be the full NO
+    if D != "N":  # original: has to be the full NO
         instruct()
     """
     A=input("What is your lucky number for today?")
@@ -111,7 +110,7 @@ def instruct():
                   "your chances of hitting bart, but he also has better chances"
                   'of hitting you.')
     A = input('Do you still want to continue?').upper()[0]
-    if A is "N":
+    if A == "N":
         fin(2)
     else:
         return
@@ -209,7 +208,6 @@ def bart_move():
             bart_pace()
     else:
         bart_pace()
-    return
 
 
 def bart_pace():
@@ -218,7 +216,6 @@ def bart_pace():
     Z = 2 + randint(0, 9)
     X = X - Z
     print(f"Black Bart moves {Z} paces.\nYou are now {X} paces apart")
-    return
 
 
 def bart_fire():
@@ -308,7 +305,7 @@ def fin(x):
     print(resp[x])
     print('\nC.G. INC')
     B = input('Do you want to play again?').upper()[0]  # Original: always stops the program
-    if B is 'Y':
+    if B == 'Y':
         main()
     else:
         exit()

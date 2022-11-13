@@ -1,4 +1,7 @@
 .idea/
-the standard*.txt
-*.bak
+.vscode/
 __pycache__/
+
+*.bak
+
+the standard*.txt
