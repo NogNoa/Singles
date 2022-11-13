@@ -15,10 +15,12 @@ for file in tumbler.iterdir():
     elif rest:
         name, _, rest = rest.partition("_")
         size = int(rest.partition(".")[0])
-        try:
-            fili[tag][name] += size
-        except KeyError:
-            try:
+        if tag in fili.keys():
+            if name in fili[tag].keys():
+                fili[tag][name].append(size)
+            else:
                 fili[tag] += {name: [size]}
-            except KeyError:
-                fili[tag] = {name: [size]}
+        else:
+            fili[tag] = {name: [size]}
+    else:
+        fili["other"] += tag
