@@ -8,6 +8,7 @@ for file in tumbler.iterdir():
         name, _, rest = rest.partition("_")
         hash, _, rest = rest.partition("_")
         size, _, ext = rest.partition(".")
+        size = int(size)
         try:
             fili["tumblr"][name][hash] = {"size": size, "ext": ext}
         except KeyError:
@@ -15,12 +16,13 @@ for file in tumbler.iterdir():
     elif rest:
         name, _, rest = rest.partition("_")
         if rest:
-            size = int(rest.partition(".")[0])
+            size, _, ext = rest.partition(".")
+            size = int(size)
             if tag in fili.keys():
                 if name in fili[tag].keys():
-                    fili[tag][name].append(size)
+                    fili[tag][name].append({"size": size, "ext": ext})
                 else:
-                    fili[tag][name] = [size]
+                    fili[tag][name] = [{"size": size, "ext": ext}]
             else:
                 fili[tag] = {name: [size]}
         else:
