@@ -21,5 +21,6 @@ for file in blog.iterdir():
             fili[tag][name] = [{"hash": hash, "size": size, "ext": ext}]
     else:
         fili[tag] = {name: [{"hash": hash, "size": size, "ext": ext}]}
-with open("fili.txt", "w+") as codex:
-    codex.write(str(fili))
+for tag in fili.values():
+    for name in tag:
+        print(name)
