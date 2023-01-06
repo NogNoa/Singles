@@ -11,17 +11,25 @@ def bet(pot) -> int:
     return back
 
 
-def gamble(pocket: int, goal: int):
-    pot = (goal - pocket) // 10
+def gamble(pocket: int, goal: int, length):
+    pot = strat2(pocket, goal, length)
     pocket += bet(pot)
     return pocket
+
+
+def strat1(pocket: int, goal: int, *args):
+    return (goal - pocket) // 10
+
+
+def strat2(pocket: int, goal: int, length: int):
+    return (goal - pocket) // 10 * (1 + length // 10)
 
 
 def game(goal: int):
     pocket = 1000
     i = 0
     while 0 <= pocket < goal - 10:
-        pocket = gamble(pocket, goal)
+        pocket = gamble(pocket, goal, i)
         i += 1
     return i, pocket
 
@@ -38,7 +46,7 @@ def main():
     lens = lens / num
     result = result / num
     jackpots = jackpots / num
-    print('lens: ', lens, '\nresult:', result, "\njackpot", jackpots)
+    print('length: ', lens, '\nwin:', result, "\njackpot", jackpots)
 
 
 main()
