@@ -18,17 +18,17 @@ def gamble(pocket: int, goal: int, length):
 
 
 def strat1(pocket: int, goal: int, *args):
-    return (goal - pocket) // 10
+    return min((goal - pocket) // 10, pocket)
 
 
 def strat2(pocket: int, goal: int, length: int):
-    return (goal - pocket) // 10 * (1 + length // 10)
+    return min((goal - pocket) // 10 * (1 + length // 10), pocket)
 
 
 def game(goal: int):
     pocket = 1000
     i = 0
-    while 0 <= pocket < goal - 10:
+    while 0 <= pocket < (goal - 10) and i < 550:
         pocket = gamble(pocket, goal, i)
         i += 1
     return i, pocket
