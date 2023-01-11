@@ -7,7 +7,7 @@ class BinDiff:
         return len(self.vals[0])
 
     def __str__(self):
-        return f"{{len: {len(self)}, {str(self.vals)}"
+        return f"{{len: {len(self)}, {str(self.vals)}}}"
 
     def __repr__(self):
         return str(self)
@@ -78,7 +78,8 @@ dir_nom = r"C:\Users\Noga\OneDrive\Documents\Electronic Arts\Dead Space\\"
 scroll_nom = dir_nom + "ds_slot_03.deadspacesaved"
 with open(r"D:\temp\DeadSpace MediumInsane Differences", "w+") as codex:
     codex.write(str(
-                diff_reduce(
-                            scroll_nom, dir_nom + "ds_slot_01.deadspacesaved",
-                            diff_find(
-                                       scroll_nom, dir_nom + "ds_slot_04.deadspacesaved"))))
+        diff_reduce(
+            scroll_nom, dir_nom + "ds_slot_01.deadspacesaved",
+            diff_find(
+                scroll_nom, dir_nom + "ds_slot_04.deadspacesaved")))
+                .replace("), ", "),\n"))
