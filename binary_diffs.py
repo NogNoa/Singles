@@ -1,11 +1,14 @@
 class BinDiff:
-    def __init__(self, start: int, end: int, vals: list[int, int]):
+    def __init__(self, start: int, vals: tuple[list[bytes], list[bytes]]):
         self.start = start
-        self.end = end
         self.vals = vals
 
     def __len__(self):
-        return self.end - self.start
+        return len(self.vals[0])
+
+    @property
+    def end(self):
+        return self.start + len(self)
 
     @property
     def val1(self):
@@ -16,7 +19,7 @@ class BinDiff:
         return self.vals[1]
 
 
-def diff_find(scroll_nom, codex_nom):
+def diff_find(scroll_nom: str, codex_nom: str) -> dict[int, BinDiff]:
     scroll = open(scroll_nom, "rb")
     codex = open(codex_nom, "rb")
     s, c = b'', b''
@@ -35,9 +38,28 @@ def diff_find(scroll_nom, codex_nom):
         start = scroll.tell()
         scroll_val, codex_vall = [], []
         while s != c:
-            s = scroll.read(1)
-            c = codex.read(1)
             scroll_val += s
             codex_vall += c
-        end = scroll.tell()
-        back[start] = BinDiff(start, end, )
+            s = scroll.read(1)
+            c = codex.read(1)
+        back[start] = BinDiff(start, (scroll_val, codex_vall))
+    scroll.close()
+    codex.close()
+    return back
+
+
+def diff_reduce(scroll_nom: str, codex_nom: str, diffs: dict[int, BinDiff]):
+    scroll = open(scroll_nom, "rb")
+    codex = open(codex_nom, "rb")
+
+    for diff in diffs.values():
+        scroll.seek(diff.start)
+        codex.seek(diff.start)
+        s = scroll.read(len(diff))
+        c = codex.read(len(diff))
+        if s != c:
+            del diffs[diff.start]
+
+    return diffs
+
+
