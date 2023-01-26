@@ -78,12 +78,9 @@ def diff_reduce(scroll_nom: str, codex_nom: str, diffs: dict[int, BinDiff]):
 
 os.chdir(r"C:\Users\Noga\OneDrive\Documents\Electronic Arts\Dead Space\\")
 scroll_nom = "ds_slot_03.deadspacesaved"
-content = diff_reduce(
-            scroll_nom, "ds_slot_05.deadspacesaved",
-            diff_reduce(
-                scroll_nom, "ds_slot_01.deadspacesaved",
-                diff_find(
-                    scroll_nom, "ds_slot_04.deadspacesaved")))
+content = diff_find(scroll_nom, "ds_slot_04.deadspacesaved")
+content = diff_reduce(scroll_nom, "ds_slot_01.deadspacesaved", content)
+content = diff_reduce(scroll_nom, "ds_slot_05.deadspacesaved", content)
 content = str({"%x" % s: content[s] for s in content}).replace("), ", "),\n")
 with open(r"D:\temp\DeadSpace MediumInsane Differences combined.txt", "w+") as codex:
     codex.write(content)
