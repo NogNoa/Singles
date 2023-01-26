@@ -28,7 +28,7 @@ class BinDiff:
         return self.vals[1]
 
 
-def diff_find(scroll_nom: str, codex_nom: str) -> dict[str, BinDiff]:
+def diff_find(scroll_nom: str, codex_nom: str) -> dict[int, BinDiff]:
     scroll = open(scroll_nom, "rb")
     codex = open(codex_nom, "rb")
     s, c = b'', b''
@@ -52,13 +52,13 @@ def diff_find(scroll_nom: str, codex_nom: str) -> dict[str, BinDiff]:
             codex_vall += c
             s = scroll.read(1)
             c = codex.read(1)
-        back[hex(start)] = BinDiff(start, (scroll_val, codex_vall))
+        back[start] = BinDiff(start, (scroll_val, codex_vall))
     scroll.close()
     codex.close()
     return back
 
 
-def diff_reduce(scroll_nom: str, codex_nom: str, diffs: dict[str, BinDiff]) -> dict[str, BinDiff]:
+def diff_reduce(scroll_nom: str, codex_nom: str, diffs: dict[int, BinDiff]):
     scroll = open(scroll_nom, "rb")
     codex = open(codex_nom, "rb")
     deletes = []
@@ -69,7 +69,7 @@ def diff_reduce(scroll_nom: str, codex_nom: str, diffs: dict[str, BinDiff]) -> d
         s = scroll.read(len(diff))
         c = codex.read(len(diff))
         if s != c:
-            deletes.append(hex(diff.start))
+            deletes.append(diff.start)
     diffs = {d: diffs[d] for d in diffs if d not in deletes}
     scroll.close()
     codex.close()
