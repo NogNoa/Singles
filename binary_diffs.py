@@ -1,3 +1,6 @@
+import os
+
+
 class BinDiff:
     def __init__(self, start: int, vals: tuple[bytes, bytes]):
         self.start = start
@@ -7,7 +10,7 @@ class BinDiff:
         return len(self.vals[0])
 
     def __str__(self):
-        return f"{{len: {len(self)}, {str(self.vals)}}}"
+        return f"len: {len(self):x}, {str(self.vals)}"
 
     def __repr__(self):
         return str(self)
@@ -67,19 +70,20 @@ def diff_reduce(scroll_nom: str, codex_nom: str, diffs: dict[int, BinDiff]):
         c = codex.read(len(diff))
         if s != c:
             deletes.append(diff.start)
-    for d in deletes:
-        del diffs[d]
+    diffs = {d: diffs[d] for d in diffs if d not in deletes}
     scroll.close()
     codex.close()
     return diffs
 
 
-dir_nom = r"C:\Users\Noga\OneDrive\Documents\Electronic Arts\Dead Space\\"
-scroll_nom = dir_nom + "ds_slot_03.deadspacesaved"
-with open(r"D:\temp\DeadSpace MediumInsane Differences", "w+") as codex:
+os.chdir(r"C:\Users\Noga\OneDrive\Documents\Electronic Arts\Dead Space\\")
+scroll_nom = "ds_slot_03.deadspacesaved"
+with open(r"D:\temp\DeadSpace MediumInsane Differences combined.txt", "w+") as codex:
     codex.write(str(
         diff_reduce(
-            scroll_nom, dir_nom + "ds_slot_01.deadspacesaved",
-            diff_find(
-                scroll_nom, dir_nom + "ds_slot_04.deadspacesaved")))
+            scroll_nom, "ds_slot_05.deadspacesaved",
+            diff_reduce(
+                scroll_nom, "ds_slot_01.deadspacesaved",
+                diff_find(
+                    scroll_nom, "ds_slot_04.deadspacesaved"))))
                 .replace("), ", "),\n"))
