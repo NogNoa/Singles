@@ -1,3 +1,4 @@
+import os
 from functools import reduce
 import json
 
@@ -15,7 +16,7 @@ def scrap(scroll_nom) -> set:
 
 
 def lz_jsonify(scroll_nom):
-    os.system(r"D:\Scripts\mozlz4.exe " + scroll_nom + ".jsonlz4")
+    os.system(r"D:\Scripts\mozlz4.exe " + scroll_nom + ".jsonlz4 > " + scroll_nom + ".json")
 
 
 if __name__ == "__main__":
@@ -29,7 +30,7 @@ if __name__ == "__main__":
     urls_list = [scrap(file) for file in library]
     try:
         with open("url.txt", "r") as scroll:
-            urls_list.append(scroll.readlines)
+            urls_list.extend(scroll.readlines())
     except FileNotFoundError:
         pass
 
