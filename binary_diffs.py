@@ -1,5 +1,5 @@
 import os
-
+import sys
 
 class BinDiff:
     def __init__(self, start: int, vals: tuple[bytes, bytes]):
@@ -76,11 +76,11 @@ def diff_reduce(scroll_nom: str, codex_nom: str, diffs: dict[int, BinDiff]):
     return diffs
 
 
-os.chdir(r"C:\Users\Noga\OneDrive\Documents\Electronic Arts\Dead Space\\")
+#os.chdir(sys.argv[1])
 scroll_nom = "ds_slot_03.deadspacesaved"
 content = diff_find(scroll_nom, "ds_slot_04.deadspacesaved")
 content = diff_reduce(scroll_nom, "ds_slot_01.deadspacesaved", content)
-content = diff_reduce(scroll_nom, "ds_slot_05.deadspacesaved", content)
+#content = diff_reduce(scroll_nom, "ds_slot_05.deadspacesaved", content)
 content = str({"%x" % s: content[s] for s in content}).replace("), ", "),\n")
-with open(r"D:\temp\DeadSpace MediumInsane Differences combined.txt", "w+") as codex:
+with open(sys.argv[1], "w+") as codex:
     codex.write(content)
