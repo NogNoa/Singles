@@ -16,9 +16,11 @@ def scrap(scroll_nom) -> set:
     urls = {tab["entries"][-1]["url"] for tab in tabs}
     return urls
 
-def deluze4(nom: str):
+
+def deleuze4(nom: str):
     parts = nom.partition(".jsonlz4")
     return parts[0] + parts[2]
+
 
 def lz_jsonify(scroll_nom: str):
     codex_nom = scroll_nom + ".json"
@@ -32,13 +34,13 @@ def lz_jsonify(scroll_nom: str):
 if __name__ == "__main__":
     folder = r"C:\Users\Noga\AppData\Roaming\Mozilla\Firefox\Profiles\8e2xs3ha.default-release\sessionstore-backups"
     os.chdir(folder)
-    library = (deleuze4(nom) for nom in listdir() if ".jsonlz4" in nom)
+    library = tuple(deleuze4(nom) for nom in os.listdir() if ".jsonlz4" in nom)
     for scroll_nom in library:
         lz_jsonify(scroll_nom)
 
     urls_list = [scrap(file) for file in library]
 
     urls_set = reduce(set.union, urls_list)
-    codex_nom = f"url-{str(datetime.date.today())}.txt"
+    codex_nom = f"urls-{str(datetime.date.today())}.txt"
     with open(codex_nom, "w+") as codex:
-        codex.writelines(urls_set)
+        codex.write("\n".join(urls_set))
