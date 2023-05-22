@@ -14,19 +14,23 @@ def scrap(scroll_nom) -> set:
     urls = {tab["entries"][-1]["url"] for tab in tabs}
     return urls
 
+def deluze4(nom: str):
+    parts = nom.partition(".jsonlz4")
+    return parts[0] + parts[2]
 
-def lz_jsonify(scroll_nom):
+def lz_jsonify(scroll_nom: str):
     codex_nom = scroll_nom + ".json"
     if "upgrade" in scroll_nom:
-        scroll_nom = "upgrade.jsonlz4-" + scroll_nom.partition(".")[2]
+        scroll_nom = "upgrade.jsonlz4-" + scroll_nom.partition("-")[2]
     else:
         scroll_nom = scroll_nom + ".jsonlz4"
     os.system(r"D:\Scripts\mozlz4.exe" + f" {scroll_nom} > {codex_nom}")
 
 
 if __name__ == "__main__":
-    library = ["previous", "recovery",
-               "upgrade.20230406114409"]
+    folder = r"C:\Users\Noga\AppData\Roaming\Mozilla\Firefox\Profiles\8e2xs3ha.default-release\sessionstore-backups"
+    os.chdir(folder)
+    library = (deleuze4(nom) for nom in listdir() if ".jsonlz4" in nom)
     for scroll_nom in library:
         lz_jsonify(scroll_nom)
 
