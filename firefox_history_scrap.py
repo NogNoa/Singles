@@ -1,6 +1,8 @@
 import os
-from functools import reduce
 import json
+import datetime
+
+from functools import reduce
 
 
 def scrap(scroll_nom) -> set:
@@ -35,12 +37,8 @@ if __name__ == "__main__":
         lz_jsonify(scroll_nom)
 
     urls_list = [scrap(file) for file in library]
-    try:
-        with open("urls.txt", "r") as scroll:
-            urls_list.append(set(scroll.readlines()))
-    except FileNotFoundError:
-        pass
 
     urls_set = reduce(set.union, urls_list)
-    with open("urls.txt", "w+") as codex:
+    codex_nom = f"url-{str(datetime.date.today())}.txt"
+    with open(codex_nom, "w+") as codex:
         codex.writelines(urls_set)
